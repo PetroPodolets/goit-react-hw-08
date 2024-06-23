@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { changeFilter } from '../../redux/filters/slice'
 import { selectName } from "../../redux/contacts/selectors";
+import { TextField } from "@mui/material";
 
 export default function SearchBox() {
 
@@ -18,8 +19,10 @@ export default function SearchBox() {
     const searchId = useId();
     return (
         <div className={css.container}>
-            <label htmlFor={searchId}>Find contacts by name</label>
-            <input className={css.searchInput} onChange={handleSearchChange} value={nameFilter} type="text" name="" /*id={searchId}*/ />
+
+
+            <TextField htmlFor={searchId} className={css.searchInput} onChange={handleSearchChange} value={nameFilter} type="text" name="" id="standard-basic" label="Find contacts by name" variant="filled" />
+
         </div>
     )
 }

@@ -5,6 +5,8 @@ import * as Yup from "yup";
 import css from './ContactForm.module.css'
 import { addContact } from '../../redux/contacts/operations';
 import { useDispatch } from "react-redux";
+import { TextField } from "@mui/material";
+import toast from "react-hot-toast";
 
 const UserSchema = Yup.object().shape({
     name: Yup.string().min(3, "Too Short!").max(50, "Too long!").required("Required"),
@@ -26,9 +28,15 @@ export default function ContactForm() {
     const dispatch = useDispatch();
 
     const handleSubmit = (values, actions) => {
-        dispatch(addContact(values));
-        actions.resetForm()
-    };
+        dispatch(addContact(values)).unwrap()
+            .then(() => {
+                toast.success("Success!!!");
+            })
+            .catch(error => {
+                toast.error(error);
+            });
+        actions.resetForm();
+    }
 
 
     return (
@@ -42,15 +50,39 @@ export default function ContactForm() {
                 <Form className={css.form}>
 
                     <div className={css.container}>
-                        <label htmlFor={nameId}>Name</label>
-                        <Field className={css.input} type="text" name="name" id={nameId} />
-                        <ErrorMessage className={css.error} name="name" component="span" />
+
+                        <Field name="name">
+                            {({ field, form }) => (
+                                <TextField
+                                    className={css.input}
+                                    {...field}
+                                    label="Name"
+                                    variant="standard"
+                                    id={nameId}
+                                    error={form.touched.name && Boolean(form.errors.name)}
+                                    helperText={form.touched.name && form.errors.name}
+                                />
+                            )}
+                        </Field>
+
 
                     </div>
                     <div className={css.container}>
-                        <label htmlFor={numberId}>Number</label>
-                        <Field className={css.input} type="" name="number" id={numberId} />
-                        <ErrorMessage className={css.error} name="number" component="span" />
+
+                        <Field name="number">
+                            {({ field, form }) => (
+                                <TextField className={css.input}
+                                    {...field}
+                                    label="Number"
+                                    variant="standard"
+
+                                    id={numberId}
+                                    error={form.touched.name && Boolean(form.errors.name)}
+                                    helperText={form.touched.name && form.errors.name}
+                                />
+                            )}
+                        </Field>
+
                     </div>
                     <button className={css.button} type="submit">Add Contact</button>
                 </Form>

@@ -4,6 +4,7 @@ import { FaPhoneAlt } from "react-icons/fa";
 import css from './Contact.module.css'
 import { deleteContact } from "../../redux/contacts/operations";
 import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 
 
 
@@ -11,7 +12,16 @@ export default function Contact({ name, number, id }) {
 
     const dispatch = useDispatch();
 
-
+    const handleDelete = () => {
+        dispatch(deleteContact(id))
+            .unwrap()
+            .then(() => {
+                toast.success("Delete is success!!!");
+            })
+            .catch(error => {
+                toast.error(error);
+            });
+    }
 
 
     return (
@@ -22,7 +32,7 @@ export default function Contact({ name, number, id }) {
                 <p className={css.phoneNumber}><FaPhoneAlt className={css.svg} /> {number}</p>
 
             </div>
-            <button className={css.btnDelete} onClick={() => dispatch(deleteContact(id))}>Delete</button>
+            <button className={css.btnDelete} onClick={handleDelete}>Delete</button>
         </li>
     )
 

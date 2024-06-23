@@ -1,72 +1,52 @@
-import { useEffect } from 'react'
-import ContactList from './components/ContactList/ContactList';
-import SearchBox from './components/SearchBox/SearchBox';
-import ContactForm from './components/ContactForm/ContactForm';
-import "./App.css"
-import { useDispatch } from 'react-redux';
-import { fetchContacts } from './redux/contacts/operations';
+import "./App.css";
+import { lazy, Suspense, useEffect } from "react";
+import { Route, Routes } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { refreshUser } from "./redux/auth/operations";
+import { selectIsRefreshing } from "./redux/auth/selectors";
+import Layout from "./components/Layout/Layout";
+import RestrictedRoute from "./components/RestrictedRoute";
+import PrivateRoute from "./components/PrivateRoute";
+import { Toaster } from "react-hot-toast";
+
+const HomePage = lazy(() => import("./pages/HomePage/HomePage"));
+const RegisterPage = lazy(() => import("./pages/RegisterPage/RegisterPage"));
+const LoginPage = lazy(() => import("./pages/LoginPage/LoginPage"));
+const ContactPage = lazy(() => import("./pages/ContactPage/ContactPage"));
 
 function App() {
-
-  // const [contacts, setContacts] = useState(() => {
-  //   const saveContact = localStorage.getItem("save-contact");
-
-  //   return (saveContact !== null ? JSON.parse(saveContact) :
-
-  //     [
-
-  //       { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-  //       { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-  //       { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-  //       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-
-  //     ])
-
-  // });
-
-  // useEffect(() => {
-  //   localStorage.setItem("save-contact", JSON.stringify(contacts))
-  // }, [contacts]);
-
-  // const [search, setSearch] = useState("");
-
-
-
-  // const onAdd = (newDate) => {
-  //   setContacts(() => {
-  //     return [...contacts, newDate]
-  //   })
-  // }
-
-
-
-  // const onDelete = (nameId) => {
-  //   setContacts((present) => {
-  //     return (present.filter((contact) => contact.id !== nameId));
-  //   })
-  // }
-
-
-
-  // const contactsFilter = contacts.filter((contact) => {
-  //   return contact.name.toLowerCase().includes(search.toLowerCase());
-  // });
-
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const isRefreshing = useSelector(selectIsRefreshing);
 
   useEffect(() => {
-    dispatch(fetchContacts())
-  }, [dispatch])
+    dispatch(refreshUser());
+  }, [dispatch]);
 
-  return (
-    <div className='containerPhoneBook'>
-      <h1 className='title'>Phonebook</h1>
-      <ContactForm />
-      <SearchBox />
-      <ContactList />
-    </div>
-  )
+  return isRefreshing ? (
+    <div>REFRESHING USER...</div>
+  ) : (
+    <Layout>
+      <Suspense fallback={null}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route
+            path="/register"
+            element={<RestrictedRoute component={<RegisterPage />} redirectTo="/" />}
+          />
+          <Route
+            path="/login"
+            element={<RestrictedRoute component={<LoginPage />} redirectTo="/contacts" />}
+          />
+          <Route
+            path="/contacts"
+            element={<PrivateRoute component={<ContactPage />} redirectTo="/login" />}
+          />
+        </Routes>
+      </Suspense>
+      <Toaster />
+    </Layout>
+
+  );
 }
 
-export default App
+export default App;
