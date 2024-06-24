@@ -5,10 +5,14 @@
 }
 
 .searchInput {
-    width: 256px;
+    width: 275px;
 
     border-radius: 3px;
     padding: 0 10px;
     height: 25px;
     margin-bottom: 20px;
+}
+
+.searchInput>label {
+    margin-left: 10px;
 }

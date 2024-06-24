@@ -26,9 +26,9 @@ export default function UserMenu() {
 
     return (
         <div className={css.userMenu}>
-            <p>Welcome, {user.name}</p>
+            <p className={css.textUserMenu}>Welcome, {user.name}</p>
 
-            <Button variant="outlined" onClick={handleLogOut}>Logout</Button>
+            <Button className={css.buttonUserMenu} color="error" onClick={handleLogOut}>Logout</Button>
             <Toaster />
         </div>
     );

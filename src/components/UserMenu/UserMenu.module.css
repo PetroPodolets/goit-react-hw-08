@@ -1,4 +1,15 @@
 .userMenu {
     display: flex;
-    gap: 20px;
+    flex-direction: row;
+    align-items: center;
+    gap: 30px;
+    margin: 18px 0;
+}
+
+.textUserMenu {
+    font-size: 18px;
+}
+
+.buttonUserMenu {
+    height: 40px;
 }

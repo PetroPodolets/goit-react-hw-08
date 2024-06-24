@@ -21,7 +21,7 @@ export default function SearchBox() {
         <div className={css.container}>
 
 
-            <TextField htmlFor={searchId} className={css.searchInput} onChange={handleSearchChange} value={nameFilter} type="text" name="" id="standard-basic" label="Find contacts by name" variant="filled" />
+            <TextField htmlFor={searchId} className={css.searchInput} onChange={handleSearchChange} value={nameFilter} type="text" name="" id="standard-basic" label="Find contacts by name" variant="outlined" />
 
         </div>
     )

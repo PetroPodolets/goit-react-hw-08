@@ -6,6 +6,7 @@ import ContactList from "../../components/ContactList/ContactList";
 import { fetchContacts } from "../../redux/contacts/operations";
 // import { selectLoading } from "../../redux/contacts/selectors";
 import SearchBox from "../../components/SearchBox/SearchBox"
+import css from './ContactPage.module.css'
 
 export default function ContactPage() {
     const dispatch = useDispatch();
@@ -16,13 +17,13 @@ export default function ContactPage() {
     }, [dispatch]);
 
     return (
-        <>
+        <div className={css.container}>
             <ContactForm />
             <SearchBox />
 
             <PageTitle>Your Contacts</PageTitle>
             <ContactList />
 
-        </>
+        </div>
     );
 }

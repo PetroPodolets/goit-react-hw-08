@@ -1,9 +1,10 @@
 import PageTitle from "../../components/PageTitle/PageTitle";
-
+import css from "./HomePage.module.css"
 export default function HomePage() {
-    return (<div>
+    return (<div className={css.container}>
         <PageTitle>
-            Advantages of our service for efficient storage of contacts</PageTitle>
+            Advantages of our service for efficient storage of contacts
+        </PageTitle>
         <ul>
             <li>
                 <p>1: Easy registration: Sign up in just a few minutes and get access to your personal phone book.</p>

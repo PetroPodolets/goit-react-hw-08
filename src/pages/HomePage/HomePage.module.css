@@ -1,0 +1,9 @@
+.container {
+    margin: 0 auto;
+    margin-top: 50px;
+    width: 1240px;
+}
+
+ul {
+    list-style-type: none;
+}
